@@ -1,0 +1,26 @@
+name: Deploy Webserver Nginx to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          name: github-actions
+
+      - name: Deploy Nginx configuration
+        run: |
+          scp -o StrictHostKeyChecking=no -r nginx-config/* ec2-user@43.205.117.221:/etc/nginx/
+          ssh -o StrictHostKeyChecking=no ec2-user@43.205.117.221 'sudo nginx -t && sudo systemctl reload nginx'
+
