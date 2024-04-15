@@ -12,14 +12,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          name: github-actions
-          if_key_exists: fail
-          #known_hosts: ''  # Provide an empty known_hosts parameter
          
       - name: Deploy Nginx configuration
         run: |
