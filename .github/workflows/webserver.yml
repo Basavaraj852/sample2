@@ -18,7 +18,8 @@ jobs:
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           name: github-actions
-
+          known_hosts: ''  # Provide an empty known_hosts parameter
+         
       - name: Deploy Nginx configuration
         run: |
           scp -o StrictHostKeyChecking=no -r nginx-config/* ec2-user@43.205.117.221:/etc/nginx/
